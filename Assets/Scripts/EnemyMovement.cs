@@ -1,15 +1,12 @@
 
+using TMPro;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
     public float speed = 1f;
 
-    private Rigidbody rb;
-
-    private float movementX;
-
-    private float movementY;
+    public Material deadPlayer;
 
     private GameObject player;
 
@@ -21,5 +18,14 @@ public class EnemyMovement : MonoBehaviour
     {      
              transform.LookAt(player.transform);
              transform.Translate(Vector3.forward * (speed * Time.deltaTime));
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            Renderer renderer = collision.gameObject.GetComponent<Renderer>();
+            if (renderer != null) {
+                renderer.material = deadPlayer;
+            }
+        }
     }
 }
