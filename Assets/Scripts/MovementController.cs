@@ -7,28 +7,21 @@ public class MovementController : MonoBehaviour
 {
     public float speed;
 
-    private Rigidbody rb;
-
     private float movementX;
 
     private float movementY;
 
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    private void Update() {
+        if (Input.GetMouseButton(0)) // Left mouse button
+           {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-    private void OnMove(InputValue movementValue)
-    {
-        var movementVector = movementValue.Get<Vector2>();
-
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-    }
-
-    private void FixedUpdate()
-    {
-        var movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+            if (Physics.Raycast(ray, out hit)) {
+                // Move the player towards the clicked point
+                Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            }
+        }
     }
 }
