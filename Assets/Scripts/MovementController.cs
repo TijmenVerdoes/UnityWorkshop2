@@ -29,6 +29,6 @@ public class MovementController : MonoBehaviour
     private void FixedUpdate()
     {
         var movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+        transform.Translate(movement * (speed * Time.deltaTime));
     }
 }
